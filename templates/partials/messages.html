@@ -1,0 +1,10 @@
+{% if messages %}
+    {% for message in messages %}
+    <div class="text-center container-fluid alert alert-{% if message.tags == 'error' %}danger{% else %}{{message.tags}}{% endif %} mt-2  alert-dismissible  fade show " role="alert">
+            <strong class="message">{{message}}</strong> 
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+{% endif %}

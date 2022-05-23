@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load static %}
+{% block content %}
+<div class="row w-100">
+    <nav aria-label="breadcrumb " class="mb-2 bg-light w-100 d-flex justify-content-between flex-row">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a class="" href = "{% url 'core:home' %}">
+                    dashboard
+                </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current = "page" >
+                <a class="" href = "#">
+                    financial summary
+                </a>
+            </li>
+        </ol>
+        <div class="d-flex align-items-center">
+            <form class="" action="" method = 'get' >
+                <div class="input-group">
+                    <input  class = "form-control" 
+                            id = "IncomeSearch"
+                            name = "query" 
+                            type = "search" 
+                            placeholder = "search"/>
+
+                    <div class="input-group-append">
+                        <span class="input-group-text">
+                            <i class="fa-solid fa-search"></i>
+                        </span>
+                    </div>
+                </div>
+            </form>
+            <a href = "{% url 'inc:create' %}" class="btn btn-outline-dark m-2"><i class="fa-solid fa-plus"></i></a>
+        </div>
+    </nav>
+    <div class="w-100 row income-card-container justify-content-between mb-5">
+        <div class="col-md-3" >
+            <div class="border border-primary rounded p-4 income-card" style="height:200px;">
+                <div class=" d-flex justify-content-between income-card-title">
+                    <h5 class="text-dark">Today</h5>
+                    <div class="bg-dark text-justify pt-1 text-light text-center rounded" style="width:50px; height: 30px;">
+                        {{todays_summary.count}}
+                    </div>
+                </div>
+                <div class="text-dark income-card-footer">({{user.user_preference.currency}}) {{todays_summary.amount|intcomma}}</div>
+            </div>
+        </div>
+        <div class="col-md-3" >
+            <div class="bg-info rounded p-4 income-card" style="height:200px;">
+                <div class=" d-flex justify-content-between income-card-title">
+                    <h5 class="text-light">This Week</h5>
+                    <div class="bg-light text-justify pt-1 text-center rounded" style="width:50px; height: 30px;">
+                        {{prev_week_summary.count}}
+                    </div>
+                </div>
+                <div class="text-light income-card-footer">({{user.user_preference.currency}}) {{prev_week_summary.amount|intcomma}}</div>
+            </div>
+        </div>
+        <div class="col-md-3" >
+            <div class="bg-success rounded p-4 income-card" style="height:200px;">
+                <div class=" d-flex justify-content-between income-card-title">
+                    <h5 class="text-light">This Month</h5>
+                    <div class="bg-light text-justify pt-1 text-center rounded" style="width:50px; height: 30px;">
+                        {{prev_month_summary.count}}
+                    </div>
+                </div>
+                <div class="text-light income-card-footer">({{user.user_preference.currency}}) {{prev_month_summary.amount|intcomma}}</div>
+            </div>
+        </div>
+        <div class="col-md-3 pr-0" >
+            <div class="bg-primary rounded p-4 income-card" style="height:200px;">
+                <div class=" d-flex justify-content-between income-card-title">
+                    <h5 class="text-light">This Year</h5>
+                    <div class="bg-light text-justify pt-1 text-center rounded" style="width:50px; height: 30px;">
+                        {{prev_year_summary.count}}
+                    </div>
+                </div>
+                <div class="text-light income-card-footer">({{user.user_preference.currency}}) {{prev_year_summary.amount|intcomma}}</div>
+            </div>
+        </div>
+    </div>
+    <div id = "ChartContainer" class="w-100">
+        <h3 class="text-center w-100 mt-2 mb-3 ">Analysis</h3>
+        <div class="row w-100 justify-content-around inverted-indicator">
+            <div class="col-5 bg-light shadow-sm p-3" >
+                <canvas id="First" width="400" height="400"></canvas>
+                <h3 class="text-center no-data d-none w-100" id = "FirstNoData">No transactions the past Week</h3>
+            </div>
+            <div class="col-5 bg-light shadow-sm p-3">
+                <canvas id="Second" width="400" height="400"></canvas> 
+                <h3 class="text-center no-data d-none w-100" id = "SecondNoData">No transactions the past Year</h3>
+            </div>
+        </div>
+        <div class="d-flex w-100 justify-content-center">
+            <div class = "indicator m-5"></div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+{% block extrascript %}
+<script src="{% static 'Js/chart-dashboard.js' %}"></script>
+{% endblock extrascript %}

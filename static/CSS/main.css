@@ -1,0 +1,122 @@
+/* spinners */
+
+.spinner-indicator:after {
+    content: " ";
+    display: block;
+    width: 20px;
+    height: 20px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 4px solid #4bbf73;
+    border-color: #4bbf73 transparent #4bbf73 transparent;
+    animation: spinner-indicator 1.2s linear infinite;
+  }
+  @keyframes spinner-indicator {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+.ajax-request .spinner-indicator {
+    display: inline-block;
+}
+.spinner-indicator{
+    display: none;
+}
+.spinner-position{
+    position :absolute;
+    right: calc(0.0059em + 0.1rem);
+    margin-top: 6px;
+    z-index: 50;
+}
+.input-group-text{
+  background-color: #f7f7f9;
+}
+.show_password{
+  cursor:pointer;
+}
+
+
+
+
+.indicator:after {
+  content: " ";
+  display: block;
+  width: 20px;
+  height: 20px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 4px solid white;
+  border-color: white transparent white transparent;
+  animation: htmx-indicator 1.2s linear infinite;
+}
+@keyframes htmx-indicator {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.request .indicator {
+  display: inline-block;
+}
+.request .inverted-indicator {
+  display: none;
+}
+.nverted-indicator{
+  display: inline-block;
+}
+.indicator{
+  display: none;
+}
+.indicator:after {
+  content: " ";
+  display: block;
+  width: 100px;
+  height: 100px;
+  margin: 10px;
+  border-radius: 50%;
+  border: 10px solid #454d55;
+  border-color: #454d55 transparent #454d55 transparent;
+  animation: htmx-indicator 1.2s linear infinite;
+}
+@keyframes htmx-indicator {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.request .indicator {
+  display: inline-block;
+}
+.request .inverted-indicator {
+  display: none;
+}
+.inverted-indicator{
+  display: flex;
+}
+.indicator{
+  display: none;
+}
+
+/* .font-awesome{
+  font-size: 1rem;
+} */
+.no-data{
+  position: absolute;
+  top: 50%;
+}
+
+/* Income page */
+.income-card-footer{
+  position: absolute;
+  bottom: 20px;
+}

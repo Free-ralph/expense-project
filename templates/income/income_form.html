@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row w-100">
+    <div class="col-md-12">
+        <form class = "shadow-sm" id = "form" method="post">
+            <div id ="MessagesContainer">
+                {% include 'partials/messages.html' %}
+            </div>
+            {% csrf_token %}
+                <div class="text-center mb-3">
+                    {% if form.instance %}
+                    <h3 class="mb-2">Edit Income</h3>
+                    {% else %}
+                    <h3 class="mb-2">Add Income</h3>
+                    {% endif %}
+                </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <div class="form-outline d-flex flex-column mb-4">
+                        <input  type="number" 
+                                id="amount_id" 
+                                class="form-control"  
+                                name = "amount" 
+                                placeholder="Enter Amount"
+                                {% if form.instance  %}
+                                value = "{{form.instance.amount}}"
+                                {% endif %}
+                            />
+                        
+                        {% if form.amount.errors %}
+                        <div class="invalid-feedback d-block text-center">
+                            {{form.amount.errors}}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="form-outline d-flex flex-column mb-4">
+                        <input  type="text" 
+                                id="amount_id" 
+                                class="form-control"  
+                                name = "source" 
+                                placeholder="Source of Income"
+                                {% if form.instance  %}
+                                value = "{{form.instance.source}}"
+                                {% endif %}
+                            />
+                        
+                        {% if form.source.errors %}
+                        <div class="invalid-feedback d-block text-center">
+                            {{form.source.errors}}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            
+            
+            <div class="form-outline d-flex flex-column mb-4">
+                <textarea   rows = '6'
+                            placeholder="Description(optional)"
+                            type="text" 
+                            id="description_id" 
+                            class="form-control"  
+                            name = "description">{% if form.instance  %}{{form.instance.description}}{% endif %}</textarea>
+                {% if form.description.errors %}
+                <div class="invalid-feedback d-block text-center">
+                    {{form.description.errors}}
+                </div>
+                {% endif %}
+            </div>
+            <div class="row">
+                <div class="form-group col-4">
+                    <input class="form-control" 
+                            type="date" 
+                            name = "date"
+                            {% if form.instance  %}
+                            value = "{{form.instance.date|date:'Y-m-d'}}"
+                            {% endif %}>
+                </div>
+            </div>
+            {% if form.date.errors %}
+            <div class="invalid-feedback d-block text-center">
+                {{form.date.errors}}
+            </div>
+            {% endif %}
+            <!-- Submit button -->
+            <button type="submit" id = "submit_btn" class="btn btn-primary w-25 m-auto mb-3">Save</button>
+        </form>
+    </div>
+</div>
+{% endblock content %}

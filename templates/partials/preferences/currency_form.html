@@ -1,0 +1,28 @@
+
+{% include 'partials/messages.html' %}
+<form 
+class="border border-primary" 
+method = "post"
+hx-post = "{% url 'pref:index' %}"
+hx-target = "#currency_container">
+{% csrf_token %}
+    <div class = "input-group">
+        <select name = "currency" class="form-control">
+            {% if current_currency %}
+            <option class="" value = "{{user.user_preference.currency}}">{{current_currency.value}} - {{current_currency.name}}</option>
+            {% else %}
+            <option class="" value = "null">Choose your currency...</option>
+            {% endif %}
+            {% for currency in currencies %}
+                <option class="" value = "{{currency.value}}">{{currency.value}} - {{currency.name}}</option>
+            {% endfor %}
+        </select>
+        <div class="input-group-append ">
+            <button class="btn btn-primary" type="submit">
+                <span class="htmx-inverted-indicator">save</span>
+                <div class = "htmx-indicator"></div>
+            </button>
+            
+        </div>
+    </div>
+</form>

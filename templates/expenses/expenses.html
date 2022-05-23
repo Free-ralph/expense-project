@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="row w-100">
+    <nav aria-label="breadcrumb " class="mb-2 bg-light w-100 d-flex justify-content-between flex-row">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a class="" href = "{% url 'exp:expenses' %}">
+                    Expenses
+                </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current = "page" >
+                <a class="" href = "#">
+                    My Expenses
+                </a>
+            </li>
+        </ol>
+        <div class="d-flex align-items-center">
+            <form class="" action="" method = 'get' >
+                <div class="input-group">
+                    <input hx-get = "{% url 'exp:search' %}" 
+                            hx-target = "#search-swap" 
+                            hx-trigger = "keyup changed delay:200ms"
+                            class = "form-control" 
+                            name = "query" 
+                            type = "search" 
+                            placeholder = "search"
+                            id = "Search"/>
+
+                    <div class="input-group-append">
+                        <span class="input-group-text">
+                            <i class="fa-solid fa-search"></i>
+                        </span>
+                    </div>
+                </div>
+            </form>
+            <a href = "{% url 'exp:create' %}" class="btn btn-outline-dark m-2"><i class="fa-solid fa-plus"></i></a>
+        </div>
+    </nav>
+    
+    {% if queryset %}
+    <div id = "search-swap" class="w-100">
+    {% include 'partials/expenses/expense_table_inline.html' %}
+    </div>
+    {% include 'partials/paginator.html' %}
+    <div id = "ChartContainer" class="w-100">
+        <h3 class="text-center w-100 mt-2 mb-3 ">Analysis</h3>
+        <div class="row w-100 justify-content-around inverted-indicator">
+            <div class="col-5 border border-primary p-3" >
+                <canvas id="First" width="400" height="400"></canvas>
+                <h3 class="text-center no-data d-none w-100" id = "FirstNoData">No Expenses the past month</h3>
+            </div>
+            <div class="col-5 border border-primary p-3">
+                <canvas id="Second" width="400" height="400"></canvas> 
+                <h3 class="text-center no-data d-none w-100" id = "SecondNoData">No Expenses the past Week</h3>
+            </div>
+        </div>
+        <div class="d-flex w-100 justify-content-center">
+            <div class = "indicator m-5"></div>
+        </div>
+    </div>
+    {% else %}
+        <div class="col-12 mt-5">
+        {% include 'partials/messages.html' %}
+        <h2 class="text-center w-100">No Expenses</h2>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock content %}
+{% block extrascript %}
+<script src="{% static 'Js/chart-expense.js' %}"></script>
+{% endblock extrascript %}

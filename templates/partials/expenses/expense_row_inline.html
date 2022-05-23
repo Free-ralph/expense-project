@@ -1,0 +1,21 @@
+{% load humanize %}
+<tr id = "ExpenseRow-{{expense.id}}" data-id = {{expense.id}}>
+    <th scope="row">{{forloop.counter}}</th>
+    <td>{{expense.amount|intcomma}}</td>
+    <td>{{expense.category}}</td>
+    <td>{{expense.description|slice:':50'}}</td>
+    <td>{{expense.date|naturalday}}</td>
+    <td class="d-flex justify-content-end">
+        <a href="{% url 'exp:edit' expense.id  %}" class="btn btn-outline-info">
+            <i class="font-awesome fa-solid fa-pen-to-square"></i>
+        </a>
+        <a  href="#" 
+            id = "delete_expense_btn"
+            data-id = "{{expense.id}}"
+            data-model_name = "expenses"
+            class="btn btn-outline-danger ml-2 delete_btn" >
+            <i class="font-awesome fa-solid fa-trash"></i>
+        </a>
+    </td>
+</tr>
+

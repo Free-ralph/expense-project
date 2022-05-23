@@ -1,0 +1,16 @@
+<div class="input-group">
+    <select name = "category" class="form-control" >
+        {% if form.instance %}
+                <option value = "{{form.instance.category}}">{{form.instance.category}}</option>
+        {% endif %}
+        {% for category in categories %}
+            {% if form.instance.category == category.name %}
+            {% else %}
+                <option value = "{{category.name}}">{{category.name}}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+    <div class="input-group-append">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="add category">Add category</button>
+    </div>
+</div>

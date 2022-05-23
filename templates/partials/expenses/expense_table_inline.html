@@ -1,0 +1,29 @@
+{% load static %}
+{% if queryset %}
+<table id = "expense-table" class="table table-hover table-dark">
+    {% csrf_token %}
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Amount({{user.user_preference.currency}})</th>
+        <th scope="col">category</th>
+        <th scope="col">description</th>
+        <th scope="col">date</th>
+        <th scope="col"></th>
+    </tr>
+    </thead> 
+    <tbody>
+        <div id = "MessagesContainer" class="w-100">
+            {% include 'partials/messages.html' %}
+        </div>
+        {% for expense in queryset %}
+        {% include 'partials/expenses/expense_row_inline.html' %}
+        {% endfor %}
+    </tbody>
+</table>
+<script src="{% static 'Js/delete.js' %}"></script>
+{% else %}
+<div class="col-12 mt-5">
+    <h2 class="text-center w-100">No results</h2>
+</div>
+{% endif %}

@@ -1,0 +1,27 @@
+<div class="d-flex justify-content-between w-100 align-items-center">
+    <p>
+        page {{queryset.number}} of {{queryset.paginator.num_pages}}
+    </p>
+    <ul class="pagination">
+        {% if not queryset.number == 1 %}
+        <li class="page-item">
+            <a class="btn btn-outline-primary py-1 px-3 mr-2" href="?page=1">&#60;&#60;1</a>
+        </li>
+        {% endif %}
+        {% if queryset.has_previous %}
+        <li class="btn btn-outline-primary py-1 px-3 mr-2">
+            <a class="" href="?page={{queryset.previous_page_number}}" tabindex="-1">Previous</a>
+        </li>
+        {% endif %}
+        {% if queryset.has_next %}
+        <li class="page-item">
+            <a class="btn btn-outline-primary py-1 px-3" href="?page={{queryset.next_page_number}}">Next</a>
+        </li>
+        {% endif %}
+        {% if not queryset.number == queryset.paginator.num_pages %}
+        <li class="page-item">
+            <a class="btn btn-outline-primary py-1 px-3 ml-2" href="?page={{queryset.end_index}}">{{queryset.end_index}} &#62;&#62;</a>
+        </li>
+        {% endif %}
+    </ul>
+</div>

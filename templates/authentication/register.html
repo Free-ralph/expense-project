@@ -1,0 +1,209 @@
+{% extends 'authentication/base_auth.html' %}
+{% block content %}
+<form class = "shadow-sm" id = "form" method="post">
+  {% csrf_token %}
+  <div class="text-center mb-3">
+    <h3 class="mb-2">Register</h3>
+    {% include 'partials/messages.html' %}
+  </div>
+    <!-- Name input -->
+    <div class="form-outline d-flex flex-column mb-4">
+      <input type="text" id="registerName" class="form-control" value="{{form_data.name}}" name = "name"/>
+      <label class="form-label text-center" for="registerName">Name</label>
+      {% if form.name.errors %}
+        <div class="invalid-feedback d-block text-center">
+            {{form.name.errors}}
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Username input -->
+    <div class="form-outline d-flex flex-column mb-4">
+        <div id = "username_container" class="input-group">
+          <input type="text" id="register_username" class="form-control" name = "username" value="{{form_data.username}}">
+          <div class = "spinner-position spinner-indicator">
+          </div>
+        </div>
+        <label class="form-label text-center" for="register_username">username</label>
+        <div id = "username_invalid" class="invalid-feedback  text-center"></div>
+        {% if form.username.errors %}
+        <div class="invalid-feedback  d-block text-center">
+            {{form.username.errors}}
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Email input -->
+    <div class="form-outline d-flex flex-column mb-4">
+      <div id = "email_container" class="input-group">
+        <input type="email" id="register_email" class="form-control" name = "email" value="{{form_data.email}}"/>
+        <div class = "spinner-position spinner-indicator"></div>
+      </div>
+      <label class="form-label text-center" for="register_email">Email</label>
+      <div id = "email_invalid" class="invalid-feedback  text-center"></div>
+      {% if form.email.errors %}
+      <div class="invalid-feedback d-block text-center">
+          {{form.email.errors}}
+      </div>
+      {% endif %}
+    </div>
+
+
+    <!-- Password input -->
+    <div class="form-outline d-flex flex-column mb-4">
+      <div class = "input-group">
+        <input type="password" id="register_password" class="form-control border-right-0" name = "password1"/>
+        <!-- <div class = "spinner-position spinner-indicator"></div> -->
+        <div class="input-group-prepend border-left-0">
+          <a id = "toggle_password" class="input-group-text show_password">
+            <i id = "fa_password_toggle" class="fa-solid fa-eye"></i>
+          </a>
+        </div>
+      </div>
+      
+      <label class="form-label text-center" for="register_password">Password</label>
+      <div id = "password_invalid" class="invalid-feedback  text-center"></div>
+      {% if form.password1.errors %}
+        <div class="invalid-feedback d-block text-center">
+            {{form.password1.errors}}
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Repeat Password input -->
+    <div class="form-outline d-flex flex-column mb-4">
+      <input type="password" id="registerRepeatPassword" class="form-control" name = "password2"/>
+      <label class="form-label text-center" for="registerRepeatPassword">Repeat password</label>
+      <div id = "password2_invalid" class="invalid-feedback  text-center"></div>
+      {% if form.password2.errors %}
+      <div class="invalid-feedback d-block text-center">
+          {{form.password2.errors}}
+      </div>
+      {% endif %}
+    </div>
+    
+    <!-- Submit button -->
+    <button type="submit" id = "submit_btn" class="btn btn-primary btn-block mb-3">Sign in</button>
+  </form>
+{% endblock content %}
+
+
+
+<!-- script  -->
+{% block extrascript %}
+<script>
+    $(document).ready(()=>{
+      const toggle_password_btn =  $('#toggle_password')
+      const password_field =  $('#register_password')
+      const password_field2 = $('#registerRepeatPassword')
+      const call_ajax = (field_name)=>{
+          field = $(`#register_${field_name}`)
+            const value = field.val();
+            $.ajax({
+                url : `{% url 'auth:field_validator' %}`,
+                type : "get",
+                data : {
+                  name : field_name,
+                  value : value
+                },
+                beforeSend: () => {
+                  $(`#${field_name}_container`).addClass('ajax-request')
+                  field.removeClass('is-invalid')
+                  field.removeClass('is-valid')
+                },
+                success : (response) => {
+                    if (response.valid){
+                        field.addClass('is-valid')
+                        $('#submit_btn').removeAttr('disabled')
+                    }
+                    if(response.error){
+                        field.addClass('is-invalid')
+                        $(`#${field_name}_invalid`).text(response.error).css('display', 'block')
+                        $('#submit_btn').attr('disabled', 'true')
+                        
+                    }else{
+                        field.removeClass('is-invalid')
+                        $(`#${field_name}_invalid`).css('display', 'none')
+                        $('#submit_btn').removeAttr('disabled')
+                    }
+                },
+                complete: ()=>{
+                  $(`#${field_name}_container`).removeClass('ajax-request')
+                },
+                error : (error) => {
+                  
+                } ,
+                
+            })
+        }
+        // ajax validate fields
+        $('#register_username').keyup(()=>{
+          call_ajax('username')
+        })
+        $('#register_email').keyup(()=>{
+          call_ajax('email')
+        })
+        $('#register_password').keyup(()=>{
+          call_ajax('password')
+        })
+
+        // hide and show password 
+        toggle_password_btn.click((e)=>{
+          e.preventDefault()
+          password_field.toggleClass('show')
+          if (password_field.hasClass('show')){
+            password_field.attr('type', 'text')
+            console.log("toggled")
+            $('#fa_password_toggle').removeClass('fa-eye')
+            $('#fa_password_toggle').addClass('fa-eye-slash')
+          }else{
+            password_field.attr('type', 'password')
+            $('#fa_password_toggle').addClass('fa-eye')
+            $('#fa_password_toggle').removeClass('fa-eye-slash')
+          }
+        })
+        password_field.keyup(() => {
+          const password_value_1 = password_field.val()
+          const password_value_2 = password_field2.val()
+          if (password_value_2 != ""){
+            if (password_value_1 != password_value_2) {
+              password_field2.addClass('is-invalid')
+              password_field.addClass('is-invalid')
+              $('#password2_invalid').text("passwords don't match").css('display', 'block')
+              $('#submit_btn').attr('disabled', 'true')
+            }else{
+              password_field2.removeClass('is-invalid')
+              password_field.removeClass('is-invalid')
+              password_field2.addClass('is-valid')
+              password_field.addClass('is-valid')
+              $('#password2_invalid').css('display', 'none')
+              $('#submit_btn').removeAttr('disabled')
+            }
+          }
+        })
+        password_field2.keyup(() =>{
+          const password_value_1 = password_field.val()
+          const password_value_2 = password_field2.val()
+          if (password_value_2 == ""){
+            password_field2.addClass('is-invalid')
+            password_field.addClass('is-invalid')
+            $('#password2_invalid').text("This field is required").css('display', 'block')
+            $('#submit_btn').attr('disabled', 'true')
+          }
+          else if (password_value_1 != password_value_2) {
+            password_field2.addClass('is-invalid')
+            password_field.addClass('is-invalid')
+            $('#password2_invalid').text("passwords don't match").css('display', 'block')
+            $('#submit_btn').attr('disabled', 'true')
+          }else{
+            password_field2.removeClass('is-invalid')
+            password_field.removeClass('is-invalid')
+            password_field2.addClass('is-valid')
+            password_field.addClass('is-valid')
+            $('#password2_invalid').css('display', 'none')
+            $('#submit_btn').removeAttr('disabled')
+          }
+        })
+    })
+    </script>
+{% endblock extrascript %}

@@ -1,0 +1,52 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="generator" content="Jekyll v3.8.6">
+    <title>Authentication</title>
+    {% block title %}
+    {% endblock title %}
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.4/examples/dashboard/">
+    <!-- <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.0.0/mdb.min.css"
+      rel="stylesheet"
+    /> -->
+    
+    <link href="{% static 'CSS/bootstrap.min.css' %}" rel="stylesheet" >
+    <link href="{% static  'CSS/dashboard.css' %}" rel="stylesheet">
+    <link href="{% static  'CSS/main.css' %}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/be3b058dc8.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://unpkg.com/htmx.org@1.7.0" integrity="sha384-EzBXYPt0/T6gxNp0nuPtLkmRpmDBbjg6WmCUZRLXBBwYYmwAUxzlSGej0ARHX0Bo" crossorigin="anonymous" defer></script>
+
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <main role="main" class="col-md-5 shadow-sm mx-auto mt-5 col-lg-5 px-4">
+          {% block content %}
+          {% endblock content %}
+        </main>
+      </div>
+    </div>
+    <script
+    src="https://code.jquery.com/jquery-2.2.4.min.js"
+    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+    crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.9.0/dist/feather.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.7.3/dist/Chart.min.js"></script>
+    <!-- MDB -->
+    <!-- <script
+    type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.0.0/mdb.min.js"
+    ></script> -->
+    <script src="{% static  'Js/dashboard.js' %}"></script>
+    {% block extrascript %}
+    {% endblock %}
+  </body>
+</html>

@@ -1,0 +1,20 @@
+{% load humanize %}
+<tr id = "incomeRow-{{income.id}}" data-id = {{income.id}}>
+    <th scope="row">{{forloop.counter}}</th>
+    <td>{{income.amount|intcomma}}</td>
+    <td>{{income.source}}</td>
+    <td>{{income.description|slice:':50'}}</td>
+    <td>{{income.date|naturalday}}</td>
+    <td class="d-flex justify-content-end">
+        <a href="{% url 'inc:edit' income.id  %}" class="btn btn-outline-info">
+            <i class="font-awesome fa-solid fa-pen-to-square"></i>
+        </a>
+        <a  href="#" 
+            id = "delete_income_btn"
+            data-id = "{{income.id}}"
+            class="btn btn-outline-danger ml-2 delete_income_btn" >
+            <i class="font-awesome fa-solid fa-trash"></i>
+        </a>
+    </td>
+</tr>
+

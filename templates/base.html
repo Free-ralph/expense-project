@@ -1,0 +1,71 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="generator" content="Jekyll v3.8.6">
+    <title>Expenses App</title>
+
+    <link href="{% static 'CSS/bootstrap.min.css' %}" rel="stylesheet" >
+    <link href="{% static  'CSS/dashboard.css' %}" rel="stylesheet">
+    <link href="{% static  'CSS/main.css' %}" rel="stylesheet">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://kit.fontawesome.com/be3b058dc8.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://unpkg.com/htmx.org@1.7.0" integrity="sha384-EzBXYPt0/T6gxNp0nuPtLkmRpmDBbjg6WmCUZRLXBBwYYmwAUxzlSGej0ARHX0Bo" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js" integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  </head>
+  <body id = "body">
+    <div class="w-100" id ="hideContent">
+      {% if show_message %}
+      <div class = "fixed-bottom">{% include 'partials/messages.html' %}</div>
+      {% endif %}
+      <div class="container-fluid">
+        <div class="row">
+          <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            {% include 'partials/sidebar.html' %}
+          </nav>
+          {% include 'partials/navbar.html' %}
+          <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <div id = "container-wrapper" class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            {% block content %}
+            {% endblock content %}
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+    {% block extrascript %}
+    {% endblock extrascript %}
+    <div id = "smallScreen" class="d-none container w-100">
+      <h2 class = "text-center mt-5 p-2">
+        Hey there, Please open this up with a pc or a screen larger than 1000px
+      </h2>
+    </div>
+    <script
+    src="https://code.jquery.com/jquery-2.2.4.min.js"
+    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+    crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.9.0/dist/feather.min.js"></script>
+    <script src="{% static  'Js/dashboard.js' %}"></script>
+    <script>
+      $(document).ready(() => {
+        handleResize()
+        window.onresize =  handleResize;
+        function handleResize(){
+          if (window.innerWidth < 900){
+            $("#hideContent").addClass('d-none')
+            $("#smallScreen").removeClass('d-none')
+          }else{
+            $("#hideContent").removeClass('d-none')
+            $("#smallScreen").addClass('d-none')
+          }
+        }
+      })
+    </script>
+</body>
+</html>
