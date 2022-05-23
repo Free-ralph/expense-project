@@ -1,1 +1,1 @@
-web: gunicorn puremen.wsgi --log-file -
+web: gunicorn expense_web.wsgi --log-file -
