@@ -2,7 +2,7 @@ from .settings import *
 import django_heroku 
 
 ALLOWED_HOSTS = [
-    'localhost', 
+    'http://127.0.0.1/8000', 
     'expense-project.herokuapp.com'
     ]
 # Debugging in heroku live

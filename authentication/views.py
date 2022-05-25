@@ -76,10 +76,10 @@ class RegisterView(View):
         if form.is_valid():
             name = form.cleaned_data.get('name')
             email = form.cleaned_data.get('email')
-            firstname, lastname = str(name).split(' ')
+            name_list = str(name).split(' ')
+            fullname = " ".join(name_list)
             form_instance = form.save(commit=False)
-            form_instance.first_name = firstname
-            form_instance.last_name = lastname 
+            form_instance.first_name = fullname
             form_instance.Email_address = email
             # form_instance.is_active = False
             form_instance.set_password(form_instance.password)
